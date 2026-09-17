@@ -1,27 +1,5 @@
 package kr.co.ktmi.companymanager;
-
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
-
-public class ReminderReceiver extends BroadcastReceiver {
-    @Override public void onReceive(Context c, Intent intent){
-        NotificationManager nm=(NotificationManager)c.getSystemService(Context.NOTIFICATION_SERVICE);
-        String channel="ktm_schedule";
-        if(Build.VERSION.SDK_INT>=26) nm.createNotificationChannel(new NotificationChannel(channel,"일정 알림",NotificationManager.IMPORTANCE_HIGH));
-        Intent open=new Intent(c,MainActivity.class).putExtra("openTab","schedule");
-        PendingIntent pi=PendingIntent.getActivity(c,0,open,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
-        String title=intent.getStringExtra("title"); int days=intent.getIntExtra("days",1);
-        android.app.Notification n=new android.app.Notification.Builder(c,channel)
-            .setSmallIcon(R.drawable.ic_launcher).setColor(Color.rgb(8,8,79))
-            .setContentTitle(days+"일 후 일정이 있습니다")
-            .setContentText(title+" · "+intent.getStringExtra("date"))
-            .setContentIntent(pi).setAutoCancel(true).build();
-        nm.notify((int)System.currentTimeMillis(),n);
-    }
+import android.app.*;import android.content.*;import android.graphics.Color;import android.media.AudioAttributes;import android.net.Uri;import android.os.Build;
+public class ReminderReceiver extends BroadcastReceiver{
+ @Override public void onReceive(Context c,Intent i){if(!LocalStore.notificationsOn(c))return;NotificationManager nm=(NotificationManager)c.getSystemService(Context.NOTIFICATION_SERVICE);String ch="ktm_schedule_"+(LocalStore.soundOn(c)?"s":"q")+(LocalStore.vibrationOn(c)?"v":"n");if(Build.VERSION.SDK_INT>=26){NotificationChannel nc=new NotificationChannel(ch,"일정 알림",NotificationManager.IMPORTANCE_HIGH);nc.enableVibration(LocalStore.vibrationOn(c));if(!LocalStore.soundOn(c))nc.setSound(null,null);nm.createNotificationChannel(nc);}Intent open=new Intent(c,MainActivity.class).putExtra("openTab","schedule");PendingIntent pi=PendingIntent.getActivity(c,0,open,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);int days=i.getIntExtra("days",1);Notification.Builder b=Build.VERSION.SDK_INT>=26?new Notification.Builder(c,ch):new Notification.Builder(c);b.setSmallIcon(R.drawable.ic_launcher).setColor(Color.rgb(8,8,79)).setContentTitle(days+"일 후 일정이 있습니다").setContentText(i.getStringExtra("title")+" · "+i.getStringExtra("date")).setContentIntent(pi).setAutoCancel(true);if(!LocalStore.soundOn(c))b.setSound(null);if(LocalStore.vibrationOn(c))b.setVibrate(new long[]{0,250,150,250});nm.notify((int)System.currentTimeMillis(),b.build());}
 }
