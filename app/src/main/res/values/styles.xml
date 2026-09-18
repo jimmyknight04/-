@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.KTMCompanyManager" parent="android:style/Theme.Material.Light.NoActionBar">
+    <style name="AppTheme" parent="android:style/Theme.Material.Light.NoActionBar">
         <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">#D95F7B</item>
+        <item name="android:navigationBarColor">#452F35</item>
+        <item name="android:statusBarColor">#452F35</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="android:statusBarColor">@color/ktm_navy</item>
-        <item name="android:navigationBarColor">@color/white</item>
-        <item name="android:windowActionModeOverlay">true</item>
     </style>
 </resources>

@@ -1,0 +1,21 @@
+우리 가족 이야기 - 안드로이드 앱 제작 안내
+
+중요: 안드로이드 휴대폰은 ZIP 파일을 직접 설치할 수 없습니다.
+ZIP 안의 '자동_APK_만들기.txt'에 따라 GitHub 또는 Android Studio에서
+APK를 만든 후 설치해야 합니다.
+
+1. 컴퓨터에 Android Studio를 설치합니다.
+2. 압축을 풀고 family-android 폴더를 엽니다.
+3. 처음 열 때 필요한 안드로이드 구성요소 다운로드가 끝날 때까지 기다립니다.
+4. 상단 메뉴에서 Build > Build App Bundle(s) or APK(s) > Build APK(s)를 선택합니다.
+5. 완성 파일 위치:
+   app/build/outputs/apk/debug/app-debug.apk
+6. app-debug.apk를 안드로이드 휴대폰으로 옮겨 설치합니다.
+7. 설치가 차단되면 휴대폰 설정에서 해당 파일 관리 앱의
+   '출처를 알 수 없는 앱 설치'를 이번 설치에만 허용합니다.
+
+앱 이름: 우리 가족 이야기
+연결 주소: https://our-family-story.kimyangha.chatgpt.site
+
+이 앱은 가족사진과 영상 보호를 위해 기존 비공개 가족 공간에 연결됩니다.
+처음 실행할 때 로그인이 필요할 수 있습니다.

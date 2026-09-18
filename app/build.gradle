@@ -1,8 +1,12 @@
 plugins { id 'com.android.application' }
 android {
- namespace 'kr.co.ktmi.companymanager'
- compileSdk 35
- defaultConfig { applicationId 'kr.co.ktmi.companymanager'; minSdk 24; targetSdk 35; versionCode 7; versionName '7.0.0' }
- compileOptions { sourceCompatibility JavaVersion.VERSION_1_8; targetCompatibility JavaVersion.VERSION_1_8 }
+    namespace 'kr.family.story'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'kr.family.story'
+        minSdk 26
+        targetSdk 35
+        versionCode 1
+        versionName '1.0'
+    }
 }
-dependencies {}
