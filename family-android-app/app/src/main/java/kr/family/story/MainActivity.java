@@ -7,9 +7,12 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.Gravity;
+import android.view.View;
+import android.view.WindowInsets;
 import android.webkit.CookieManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -91,6 +94,7 @@ public class MainActivity extends Activity {
         root.addView(id, fieldParams());
         root.addView(password, fieldParams());
         root.addView(login, buttonParams);
+        applySafeInsets(root);
         setContentView(root);
 
         login.setOnClickListener(v -> {
@@ -166,6 +170,7 @@ public class MainActivity extends Activity {
         webView = new WebView(this);
         root.addView(bar);
         root.addView(webView, new LinearLayout.LayoutParams(-1, 0, 1));
+        applySafeInsets(root);
         setContentView(root);
 
         WebSettings s = webView.getSettings();
@@ -204,6 +209,34 @@ public class MainActivity extends Activity {
     }
     private LinearLayout.LayoutParams fullWidth(int height) { return new LinearLayout.LayoutParams(-1, height); }
     private int dp(int value) { return Math.round(value * getResources().getDisplayMetrics().density); }
+    private void applySafeInsets(View view) {
+        if (Build.VERSION.SDK_INT < 35) return;
+        final int left = view.getPaddingLeft();
+        final int top = view.getPaddingTop();
+        final int right = view.getPaddingRight();
+        final int bottom = view.getPaddingBottom();
+        view.setOnApplyWindowInsetsListener((v, insets) -> {
+            int insetLeft;
+            int insetTop;
+            int insetRight;
+            int insetBottom;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                android.graphics.Insets bars = insets.getInsets(WindowInsets.Type.systemBars());
+                insetLeft = bars.left;
+                insetTop = bars.top;
+                insetRight = bars.right;
+                insetBottom = bars.bottom;
+            } else {
+                insetLeft = insets.getSystemWindowInsetLeft();
+                insetTop = insets.getSystemWindowInsetTop();
+                insetRight = insets.getSystemWindowInsetRight();
+                insetBottom = insets.getSystemWindowInsetBottom();
+            }
+            v.setPadding(left + insetLeft, top + insetTop, right + insetRight, bottom + insetBottom);
+            return insets;
+        });
+        view.requestApplyInsets();
+    }
     private GradientDrawable roundRect(int color, int radiusDp) {
         GradientDrawable d = new GradientDrawable();
         d.setColor(color);
